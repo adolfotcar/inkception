@@ -3,10 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <title>Inkception: a Rorschach-style inkblot test</title>
-  <meta name="description" content="See 10 classic inkblots, say what you see, and get an AI reading of your answers. Anonymous, about 10 minutes." />
+    <meta name="description" content="See 10 classic inkblots, say what you see, and get an AI reading of your answers. Anonymous, about 10 minutes." />
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#7a1f2b" />
+
+    <!-- Link previews (WhatsApp, Facebook, LinkedIn, iMessage, X…). Must stay in this static file: crawlers don't run JavaScript. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Inkception" />
+    <meta property="og:url" content="https://inkception.web.app/" />
+    <meta property="og:title" content="Inkception: what do you see?" />
+    <meta property="og:description" content="10 classic inkblots and an AI reading of what you see in them. Anonymous, about 10 minutes." />
+    <meta property="og:image" content="https://inkception.web.app/share.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="An inkblot next to the words: Inkception, what do you see?" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <app-root></app-root>
