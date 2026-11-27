@@ -11,6 +11,10 @@ export const firebaseConfig = {
   appId: '1:562848027390:web:bb31615edc5656ebb0cbaf',
 };
 
+// reCAPTCHA Enterprise site key used by App Check. Public, like the values above.
+// Allowed domains are set on the key in Google Cloud → Security → reCAPTCHA.
+export const recaptchaSiteKey = '6LeMWDQuAAAAACJrEjjq703gRR5ecRCFCJMwQlVO';
+
 // Must match `region` in functions/src/index.ts
 export const functionsRegion = 'europe-west1';
 

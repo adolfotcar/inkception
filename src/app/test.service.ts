@@ -1,7 +1,8 @@
 import { Injectable, inject, isDevMode, signal } from '@angular/core';
-import { initializeApp } from 'firebase/app';
+import { FirebaseApp, initializeApp } from 'firebase/app';
+import { ReCaptchaEnterpriseProvider, initializeAppCheck } from 'firebase/app-check';
 import { connectFunctionsEmulator, getFunctions, httpsCallable } from 'firebase/functions';
-import { firebaseConfig, functionsRegion, useEmulators } from './firebase.config';
+import { firebaseConfig, functionsRegion, recaptchaSiteKey, useEmulators } from './firebase.config';
 import { I18n } from './i18n/i18n.service';
 import { Analysis, CARD_COUNT, CardResponse, Profile, Reflection } from './models';
 
@@ -17,6 +18,26 @@ interface AnalyzeRequest {
   device: 'mobile' | 'desktop';
 }
 
+declare global {
+  // eslint-disable-next-line no-var
+  var FIREBASE_APPCHECK_DEBUG_TOKEN: boolean | string | undefined;
+}
+
+function initFirebase(): FirebaseApp {
+  const app = initializeApp(firebaseConfig);
+  // On `ng serve` reCAPTCHA rejects localhost, so App Check uses a debug token instead.
+  // The first run prints it in the browser console; register it once in
+  // Firebase console → App Check → Apps → (web app) ⋮ → Manage debug tokens.
+  if (isDevMode()) {
+    globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+  }
+  initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider(recaptchaSiteKey),
+    isTokenAutoRefreshEnabled: true,
+  });
+  return app;
+}
+
 const emptyResponses = (): CardResponse[] =>
   Array.from({ length: CARD_COUNT }, (_, i) => ({
     card: i + 1,
@@ -29,7 +50,7 @@ const emptyResponses = (): CardResponse[] =>
 @Injectable({ providedIn: 'root' })
 export class TestService {
   private readonly i18n = inject(I18n);
-  private readonly functions = getFunctions(initializeApp(firebaseConfig), functionsRegion);
+  private readonly functions = getFunctions(initFirebase(), functionsRegion);
   private readonly analyzeFn = httpsCallable<AnalyzeRequest, { id: string; analysis: Analysis }>(
     this.functions,
     'analyze',

@@ -235,8 +235,9 @@ export const analyze = onCall(
     maxInstances: 10,
     timeoutSeconds: 120,
     memory: '512MiB',
-    // Turn this on once App Check is set up in the web app (recommended before going public).
-    enforceAppCheck: false,
+    // Rejects calls that don't carry a valid App Check token (reCAPTCHA Enterprise in the web app).
+    // Deploy the web app before this, so live visitors already send tokens.
+    enforceAppCheck: true,
   },
   async (request) => {
     const input = validate(request.data);
